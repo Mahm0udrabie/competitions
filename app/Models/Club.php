@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Club extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'status', 'competition_id'];
+
+    public function competition() {
+        return $this->belongsTo(Competition::class);
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use App\Repositories\CompetitionsRepositoryInterface;
 use App\Http\Requests\CompetitionRequest;
 use App\Http\Requests\UpdateCompetitionRequest;
@@ -17,7 +16,7 @@ class CompetitionController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => $competition
-        ]);
+        ],200);
     }
     public function show($id) {
         $competition = $this->competition->show($id);

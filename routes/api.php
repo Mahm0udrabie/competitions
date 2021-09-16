@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompetitionController;
-
+use App\Http\Controllers\ClubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +41,14 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
         Route::get('/{id}', [CompetitionController::class, 'show']);
         Route::post('/{id}/update', [CompetitionController::class, 'update']);
         Route::delete('/{id}/delete', [CompetitionController::class, 'delete']);
+    });
+    //teams resource
+    Route::group(['prefix'=>'clubs'], function() {
+        Route::post('/', [ClubController::class, 'store']);
+        Route::post('/members', [ClubController::class, 'addMembers']);
+        Route::get('/{id}', [ClubController::class, 'show']);
+        Route::post('/{id}/update', [ClubController::class, 'update']);
+        Route::delete('/{id}/delete', [ClubController::class, 'delete']);
     });
    
 });

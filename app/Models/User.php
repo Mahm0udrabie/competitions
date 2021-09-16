@@ -7,9 +7,6 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Article;
-use App\Models\Comment;
-use App\Models\Like;
 use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -29,8 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'expire',
         'email',
         'password',
-        'api_token',
-        'channel'
+        'club_id'
 ];
     /**
      * The attributes that should be hidden for arrays.
@@ -58,5 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getAvatarAttribute($value) {
         return $value ?: 'https://bootdey.com/img/Content/avatar/avatar6.png';
+    }
+    public function club() {
+        return $this->belongsTo(Club::class);
     }
 }
