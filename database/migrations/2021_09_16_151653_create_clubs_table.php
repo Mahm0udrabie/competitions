@@ -20,6 +20,7 @@ class CreateClubsTable extends Migration
             $table->foreign('competition_id')
                 ->references('id')->on('competitions')
                 ->onDelete('cascade');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

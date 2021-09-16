@@ -15,7 +15,7 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_able_to_register', 1);
+            $table->boolean('is_able_to_register')->default(1);
             $table->date('register_date')->nullable();
             $table->timestamps();
         });

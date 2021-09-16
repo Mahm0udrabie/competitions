@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\ApiAuthController;
-use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompetitionController;
 
 
 /*
@@ -26,15 +26,15 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [ApiAuthController::class,'logout'])->name('logout.api');
 });
 Route::group(['middleware' => ['cors', 'json']], function () {
-    Route::post('/login', [ApiAuthController::class, "login"] )->name('login.api');
-    Route::post('/register',[ApiAuthController::class,'register'])->name('register.api');
-    Route::post('/logout', [ApiAuthController::class,'logout'])->name('logout.api');
+    Route::post('/login', [ApiAuthController::class, "login"] );
+    Route::post('/register',[ApiAuthController::class,'register']);
+});
+Route::middleware('auth:api')->post('/logout', [ApiAuthController::class,'logout']);
+
+Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
+    Route::post('/user/store', [UserController::class, 'store']);
+    Route::get('/all-users-with-role', [UserController::class, 'AllUsersWithRole']);
+    Route::post('/compitions', [CompetitionController::class, 'store']);
 });
 
-Route::middleware('auth:api')->get('/test',function() {
-    return "test";
-});
-Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
-    Route::post('/store', [UserController::class, 'store']);
-    Route::get('/all-users-with-role', [UserController::class, 'AllUsersWithRole']);
-});
+// create compitions 

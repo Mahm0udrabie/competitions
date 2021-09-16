@@ -16,7 +16,7 @@ class CreateCompetitionsTable extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->boolean('status', 0);
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
