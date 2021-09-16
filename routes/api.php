@@ -34,7 +34,14 @@ Route::middleware('auth:api')->post('/logout', [ApiAuthController::class,'logout
 Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
     Route::post('/user/store', [UserController::class, 'store']);
     Route::get('/all-users-with-role', [UserController::class, 'AllUsersWithRole']);
-    Route::post('/compitions', [CompetitionController::class, 'store']);
+
+    //competitions resource
+    Route::group(['prefix'=>'competitions'], function() {
+        Route::post('/', [CompetitionController::class, 'store']);
+        Route::get('/{id}', [CompetitionController::class, 'show']);
+        Route::post('/{id}/update', [CompetitionController::class, 'update']);
+        Route::delete('/{id}/delete', [CompetitionController::class, 'delete']);
+    });
+   
 });
 
-// create compitions 

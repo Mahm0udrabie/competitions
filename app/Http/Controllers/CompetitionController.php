@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\CompetitionsRepositoryInterface;
 use App\Http\Requests\CompetitionRequest;
+use App\Http\Requests\UpdateCompetitionRequest;
 
 class CompetitionController extends Controller
 {
@@ -16,6 +17,27 @@ class CompetitionController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => $competition
+        ]);
+    }
+    public function show($id) {
+        $competition = $this->competition->show($id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => $competition
+        ]);
+    }
+    public function update(UpdateCompetitionRequest $request, $id) {
+        $updatedCompetition = $this->competition->update($request->all(), $id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => $updatedCompetition
+        ]);
+    }
+    public function delete($id) {
+        $deletedCompetition = $this->competition->delete($id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => $deletedCompetition
         ]);
     }
 
