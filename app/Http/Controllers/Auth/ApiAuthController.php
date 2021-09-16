@@ -31,12 +31,12 @@ class ApiAuthController extends Controller
         $request['remember_token'] = Str::random(10);
         $user = $this->model->create($request->all());
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-        $response = ['token' => $token];
+        $response = array_merge($user->toArray(), ["token"=>$token]);
+
         return response()->json(
             [
                 "status" => "success",
-                "data"   =>  $user,
-                "token"  => $response,
+                "data"   =>  $response,
             ],
             200
         );
