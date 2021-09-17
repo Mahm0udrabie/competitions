@@ -13,4 +13,8 @@ class Club extends Model
     public function competition() {
         return $this->belongsTo(Competition::class);
     }
+    public function users() {
+        return $this->hasMany(User::class);
+    }
+    
 }

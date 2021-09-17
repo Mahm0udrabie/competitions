@@ -20,7 +20,7 @@ class UserController extends Controller
         ]);
     }
     public function AllUsersWithRole() {
-         $users = $this->userRepository->AllUsersWithRole();
+        $users = $this->userRepository->AllUsersWithRole();
         return response()->json([
             'status' => 'success',
             'data'   => $users

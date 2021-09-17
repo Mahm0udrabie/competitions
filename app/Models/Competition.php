@@ -9,4 +9,7 @@ class Competition extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'status'];
+    public function clubs() {
+        return $this->hasMany(Club::class);
+    }
 }
