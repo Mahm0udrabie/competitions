@@ -18,7 +18,13 @@ use App\Http\Controllers\ClubController;
 |
 */
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $data = $user->toArray();
+    $data['role_name'] = optional($user->roles()->first())->name;
+    return response()->json([
+        'status'=> 'success',
+        'data' => $data
+    ]);
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -38,6 +44,7 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
     //competitions resource
     Route::group(['prefix'=>'competitions'], function() {
         Route::post('/', [CompetitionController::class, 'store']);
+        Route::get('/', [CompetitionController::class, 'index']);
         Route::get('/{id}', [CompetitionController::class, 'show']);
         Route::post('/{id}/update', [CompetitionController::class, 'update']);
         Route::delete('/{id}/delete', [CompetitionController::class, 'delete']);
@@ -50,6 +57,5 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
         Route::post('/{id}/update', [ClubController::class, 'update']);
         Route::delete('/{id}/delete', [ClubController::class, 'delete']);
     });
-   
-});
 
+});

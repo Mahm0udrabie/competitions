@@ -58,4 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function club() {
         return $this->belongsTo(Club::class);
     }
+    public function isA($role) {
+        return optional($this->roles()->first())->name == $role;
+    }
 }

@@ -24,7 +24,7 @@ class UpdateCompetitionRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name'=> 'unique:competitions,name,'.$this->id.',id'
+            'name'=> 'required|unique:competitions,name,'.$this->id.',id'
         ];
     }
 }

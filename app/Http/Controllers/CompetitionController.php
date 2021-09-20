@@ -11,8 +11,15 @@ class CompetitionController extends Controller
     public function __construct(CompetitionsRepositoryInterface $competition) {
         $this->competition = $competition;
     }
+    public function index() {
+        $competitions = $this->competition->index();
+        return response()->json([
+            'status' => 'success',
+            'data'   => $competitions
+        ],200);
+    }
     public function store(CompetitionRequest $request) {
-        $competition = $this->competition->store($request->all());
+        $competition = $this->competition->store($request);
         return response()->json([
             'status' => 'success',
             'data'   => $competition

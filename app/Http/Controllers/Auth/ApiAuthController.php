@@ -54,7 +54,11 @@ class ApiAuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = array_merge($user->toArray(), ["token"=>$token]);
+                $response = array_merge(
+                    $user->toArray(), [
+                        "role_name" => optional($user->roles()->first())->name,
+                        "token"=>$token,
+                    ]);
                 return response()->json([
                     "status" => "success",
                     "data" => $response
