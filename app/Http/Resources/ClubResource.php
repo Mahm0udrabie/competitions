@@ -18,7 +18,8 @@ class ClubResource extends JsonResource
             'id'=> $this->id,
             'name' => $this->name,
             'competition' => optional($this->competition)->name,
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            'status' => $this->status
         ];
     }
 }
