@@ -15,22 +15,19 @@ class ClubsRepository implements ClubsRepositoryInterface
         return Club::create($data);
     }
     public function show($id) {
-        $competition = Club::where('id', $id)->first();
-        if($competition) 
-            return $competition;
-        return 'club does not exists';
+        return Club::findOrFail($id);
     }
     public function update($data,$id) {
-        $isUpdate = Club::where('id', $id)->first();
-        if($isUpdate) 
-            return $isUpdate->update($data);
-        return 'invalid data';
+        $isUpdated= Club::findOrFail($id);
+        if($isUpdated)
+            return $isUpdated->update($data);
+        return $isUpdated;
     }
     public function delete($id) {
-        $isDeleted = Club::where('id', $id)->first();
-        if($isDeleted) 
+        $isDeleted = Club::findOrFail($id);
+        if($isDeleted)
             return $isDeleted->delete();
-        return 'club does not exists';
+        return $isDeleted ;
     }
     public function addMembers($data)
     {
@@ -41,5 +38,8 @@ class ClubsRepository implements ClubsRepositoryInterface
         $user->save();
         $user->attachRole($normalUser->id);
         return $user;
+    }
+    public function getAll() {
+        return Club::orderBy('id', 'desc')->get();
     }
 }

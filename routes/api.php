@@ -18,13 +18,7 @@ use App\Http\Controllers\ClubController;
 |
 */
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    $user = $request->user();
-    $data = $user->toArray();
-    $data['role_name'] = optional($user->roles()->first())->name;
-    return response()->json([
-        'status'=> 'success',
-        'data' => $data
-    ]);
+    return $request->user();
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -37,9 +31,10 @@ Route::group(['middleware' => ['cors', 'json']], function () {
 });
 Route::middleware('auth:api')->post('/logout', [ApiAuthController::class,'logout']);
 
-Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
+Route::group(['middleware'=> ['cors', 'json', 'auth:api', 'role:superadministrator']] , function() {
     Route::post('/user/store', [UserController::class, 'store']);
     Route::get('/all-users-with-role', [UserController::class, 'AllUsersWithRole']);
+    Route::get('/users', [UserController::class, 'getAllUsers']);
 
     //competitions resource
     Route::group(['prefix'=>'competitions'], function() {
@@ -49,13 +44,16 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
         Route::post('/{id}/update', [CompetitionController::class, 'update']);
         Route::delete('/{id}/delete', [CompetitionController::class, 'delete']);
     });
-    //teams resource
-    Route::group(['prefix'=>'clubs'], function() {
-        Route::post('/', [ClubController::class, 'store']);
-        Route::post('/members', [ClubController::class, 'addMembers']);
-        Route::get('/{id}', [ClubController::class, 'show']);
-        Route::post('/{id}/update', [ClubController::class, 'update']);
-        Route::delete('/{id}/delete', [ClubController::class, 'delete']);
-    });
-
 });
+
+//teams resource
+Route::group(['prefix'=>'clubs' , 'cors', 'json', 'auth:api','superadministrator|role:administrator'], function() {
+    Route::post('/', [ClubController::class, 'store']);
+    Route::get('/', [ClubController::class, 'getAll']);
+    Route::post('/members', [ClubController::class, 'addMembers']);
+    Route::get('/{id}', [ClubController::class, 'show']);
+    Route::post('/{id}/update', [ClubController::class, 'update']);
+    Route::delete('/{id}/delete', [ClubController::class, 'delete']);
+});
+
+Route::middleware('auth:api')->get('user/{id}',[UserController::class, 'getUser']);

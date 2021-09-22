@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClubRequest;
 use App\Repositories\ClubsRepositoryInterface;
+use App\Http\Resources\ClubResource;
 
 class ClubController extends Controller
 {
@@ -17,6 +18,13 @@ class ClubController extends Controller
             'status' => 'success',
             'data'   => $team
         ],200);
+    }
+    public function getAll() {
+        $teams = $this->club->getAll();
+        return response()->json([
+            'status' => 'success',
+            'data'   => ClubResource::collection($teams)
+        ]);
     }
     public function show($id) {
         $team = $this->club->show($id);

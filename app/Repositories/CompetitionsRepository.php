@@ -6,35 +6,36 @@ namespace App\Repositories;
 
 use App\Models\Competition;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Carbon\Carbon;
 
 class CompetitionsRepository implements CompetitionsRepositoryInterface
 {
     public function index() {
-         return Competition::where('status', 1)->latest()->get();
+        $today=Carbon::parse(Carbon::today());
+         return Competition::where('status', 1)
+         ->whereDate('start','<=', $today)
+         ->whereDate('end','>=', $today)
+         ->latest()->get();
     }
     public function store($data)
     {
         $user = $data->user();
         if($user->isA('superadministrator'))
             return Competition::create($data->all());
-        return false;
     }
     public function show($id) {
-        $competition = Competition::where('id', $id)->first();
-        if($competition)
-            return $competition;
-        return 'competition does not exists';
+        return Competition::findOrFail($id);
     }
     public function update($data,$id) {
-        $isUpdate = Competition::where('id', $id)->first();
+        $isUpdate = Competition::findOrFail($id);
         if($isUpdate)
             return $isUpdate->update($data);
-        return 'invalid data';
+        return $isUpdate;
     }
     public function delete($id) {
-        $isDeleted = Competition::where('id', $id)->first();
+        $isDeleted = Competition::findOrFail($id);
         if($isDeleted)
             return $isDeleted->delete();
-        return 'competition does not exists';
+        return $isDeleted;
     }
 }

@@ -36,12 +36,23 @@ class UserRepository implements UserRepositoryInterface
     }
     public function UserWithRole($id)
     {
-        $user = User::where("id", $id)->first();
+        $user = User::findOrFail($id);
         return $user;
-    }    
+    }
+    public function getUser($id)
+    {
+        $user = User::findOrFail($id);
+        return $user;
+    }
     public function getUserWithRole($id)
     {
         $user = User::with("roles")->where("id",$id)->first();
         return $user;
     }
+    public function getAllUsers()
+    {
+        $users = User::with("roles")->get();
+        return $users;
+    }
+
 }

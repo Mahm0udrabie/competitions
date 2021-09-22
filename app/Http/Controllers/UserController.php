@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepositoryInterface;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UsersResource;
 
 class UserController extends Controller
 {
@@ -24,6 +25,20 @@ class UserController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => $users
+        ]);
+    }
+    public function getAllUsers() {
+        $users = $this->userRepository->getAllUsers();
+        return response()->json([
+            'status' => 'success',
+            'data'   => UsersResource::collection($users)
+        ]);
+    }
+    public function getUser($id) {
+        $user = $this->userRepository->getUser($id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => new UsersResource($user)
         ]);
     }
 }

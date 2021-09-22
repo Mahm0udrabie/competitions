@@ -31,12 +31,14 @@ class ApiAuthController extends Controller
         $request['remember_token'] = Str::random(10);
         $user = $this->model->create($request->all());
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-        $response = array_merge($user->toArray(), ["token"=>$token]);
+        $user = new UserResource($user);
+        $user['token'] = $token;
+
 
         return response()->json(
             [
                 "status" => "success",
-                "data"   =>  $response,
+                "data"   =>  $user,
             ],
             200
         );
@@ -54,15 +56,15 @@ class ApiAuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = array_merge(
-                    $user->toArray(), [
-                        "role_name" => optional($user->roles()->first())->name,
-                        "token"=>$token,
-                    ]);
-                return response()->json([
-                    "status" => "success",
-                    "data" => $response
-                ], 200);
+                $user = new UserResource($user);
+                $user['token'] = $token;
+                return response()->json(
+                    [
+                        "status" => "success",
+                        "data"   =>  $user,
+                    ],
+                    200
+                );
             } else {
                 $response = ["message" => "Password mismatch"];
                 return response($response, 422);

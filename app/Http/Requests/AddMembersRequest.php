@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Api\FormRequest;
 
-class CompetitionRequest extends FormRequest
+class AddMembersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class CompetitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:competitions',
-            'start' => 'required|date|after_or_equal:today',
-            'end' => 'required|date|after:start',
+            'name' => 'required|string',
+            'email' => 'email|unique:users,email',
+            'club_id' => 'required|exists:clubs,id'
         ];
     }
 }
