@@ -81,7 +81,4 @@ class ApiAuthController extends Controller
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
     }
-    private function create_uuid() {
-        return time()."-".Str::random(5)."-".Str::random(5)."-".Str::random(5)."-".Str::random(5);
-    }
 }
