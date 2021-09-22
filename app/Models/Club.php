@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Club extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'status', 'competition_id'];
+    protected $fillable = ['name', 'status', 'competition_id', 'user_id'];
 
     public function competition() {
         return $this->belongsTo(Competition::class);
@@ -16,5 +16,5 @@ class Club extends Model
     public function users() {
         return $this->hasMany(User::class);
     }
-    
+
 }

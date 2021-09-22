@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 
 class ApiAuthController extends Controller
 {
@@ -17,16 +19,7 @@ class ApiAuthController extends Controller
     {
         $this->model = $user;
     }
-    public function register (Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
-        }
+    public function register (RegisterRequest $request) {
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
         $user = $this->model->create($request->all());
@@ -43,15 +36,7 @@ class ApiAuthController extends Controller
             200
         );
     }
-    public function login (Request $request) {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
-        ]);
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
-        }
+    public function login (LoginRequest $request) {
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {

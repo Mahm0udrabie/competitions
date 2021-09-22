@@ -20,7 +20,11 @@ class CreateClubsTable extends Migration
             $table->foreign('competition_id')
                 ->references('id')->on('competitions')
                 ->onDelete('cascade');
-            $table->boolean('status')->default(1);
+                $table->unsignedBigInteger('user_id')->index()->nullable();
+                $table->foreign('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('no action');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -12,7 +12,18 @@ class ClubsRepository implements ClubsRepositoryInterface
 {
     public function store($data)
     {
-        return Club::create($data);
+        $user = auth()->user();
+        $role = optional(auth()->user()->roles()->first())->name;
+        $data['user_id'] = $user->id;
+        if($role == 'administrator' && !$user->club()->exists()) {
+            $club = Club::create($data);
+            $user->update(['club_id'=>  $club->id]);
+            return $club;
+        }
+        else if($role == 'superadministrator') {
+            $data['status'] = 1;
+            return Club::create($data);
+        }
     }
     public function show($id) {
         return Club::findOrFail($id);
@@ -43,6 +54,6 @@ class ClubsRepository implements ClubsRepositoryInterface
         return Club::orderBy('id', 'desc')->get();
     }
     public function getCompetitionClubs($id) {
-        return Club::where('competition_id', $id)->get();
+        return Club::where('status', 1)->where('competition_id', $id)->get();
     }
 }

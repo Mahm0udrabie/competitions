@@ -5,19 +5,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ClubRequest;
 use App\Repositories\ClubsRepositoryInterface;
 use App\Http\Resources\ClubResource;
+use App\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\Authenticate;
 
 class ClubController extends Controller
 {
     protected $club;
-    public function __construct(ClubsRepositoryInterface $club) {
+    protected $user;
+    public function __construct(ClubsRepositoryInterface $club, UserRepositoryInterface $user) {
         $this->club = $club;
+        $this->user = $user;
     }
     public function store(ClubRequest $request) {
         $team = $this->club->store($request->all());
-        return response()->json([
-            'status' => 'success',
-            'data'   => $team
-        ],200);
+        if($team) {
+            return response()->json([
+                'status' => 'success',
+                'data'   => $team
+            ],200);
+        } else {
+            return response()->json([
+                'message' => 'not allowed to create multiple teams',
+            ],405);
+        }
+
     }
     public function getAll() {
         $teams = $this->club->getAll();
@@ -30,7 +42,7 @@ class ClubController extends Controller
         $team = $this->club->show($id);
         return response()->json([
             'status' => 'success',
-            'data'   => $team
+            'data'   => new ClubResource($team)
         ]);
     }
     public function update(Request $request, $id) {
