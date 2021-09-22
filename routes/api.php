@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\ConfigurationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +31,13 @@ Route::group(['middleware' => ['cors', 'json']], function () {
     Route::post('/register',[ApiAuthController::class,'register']);
 });
 Route::middleware('auth:api')->post('/logout', [ApiAuthController::class,'logout']);
+Route::get('/get-configurations', [ConfigurationController::class, 'getConfigurations']);
 
 Route::group(['middleware'=> ['cors', 'json', 'auth:api', 'role:superadministrator']] , function() {
     Route::post('/user/store', [UserController::class, 'store']);
     Route::get('/all-users-with-role', [UserController::class, 'AllUsersWithRole']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
-
+    Route::post('/set-configurations', [ConfigurationController::class, 'setConfigurations']);
     //competitions resource
     Route::group(['prefix'=>'competitions'], function() {
         Route::post('/', [CompetitionController::class, 'store']);

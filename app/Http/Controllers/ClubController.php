@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateClubRequest;
 use App\Repositories\ClubsRepositoryInterface;
 use App\Http\Resources\ClubResource;
 use App\Repositories\UserRepositoryInterface;
-
+use App\Http\Requests\MemberRequest;
 
 class ClubController extends Controller
 {
@@ -59,7 +59,7 @@ class ClubController extends Controller
             'data'   => $deletedTeam
         ]);
     }
-    public function addMembers(Request $request) {
+    public function addMembers(MemberRequest $request) {
         $member = $this->club->addMembers($request->all());
         return response()->json([
             'status' => 'success',
