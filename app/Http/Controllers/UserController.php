@@ -48,4 +48,11 @@ class UserController extends Controller
             'data'   => UsersResource::collection($user)
         ]);
     }
+    public function delete($id) {
+        $isDeleted= $this->userRepository->delete($id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => $isDeleted
+        ]);
+    }
 }

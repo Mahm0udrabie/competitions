@@ -58,4 +58,11 @@ class UserRepository implements UserRepositoryInterface
         return User::where('club_id', $id)->get();
     }
 
+    public function delete($id) {
+        $isDeleted = User::findOrFail($id);
+        if($isDeleted)
+            return $isDeleted->delete();
+        return $isDeleted;
+    }
+
 }

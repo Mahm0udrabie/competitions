@@ -17,6 +17,7 @@ class ClubResource extends JsonResource
         return [
             'id'=> $this->id,
             'name' => $this->name,
+            'username' => optional($this->user)->name,
             'competition' => optional($this->competition)->name,
             'user_id' => $this->user_id,
             'status' => $this->status

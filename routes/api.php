@@ -51,14 +51,19 @@ Route::group(['prefix'=>'clubs' ,'middleware'=> ['cors', 'json', 'auth:api', 'au
     Route::post('/', [ClubController::class, 'store']);
     Route::get('/', [ClubController::class, 'getAll']);
     Route::post('/members', [ClubController::class, 'addMembers']);
-    Route::get('/{id}', [ClubController::class, 'show'])->middleware('role:superadministrator|administrator|user');
     Route::post('/{id}/update', [ClubController::class, 'update']);
     Route::delete('/{id}/delete', [ClubController::class, 'delete']);
-    Route::get('users/{id}', [UserController::class, 'getAllUsersByClub']);
-    Route::get('competitions/{id}', [ClubController::class, 'getCompetitionClubs']);
 });
+
 
 Route::middleware('auth:api')->get('user/{id}',[UserController::class, 'getUser']);
 Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
     Route::get('/competitions', [CompetitionController::class, 'index']);
+    Route::get('clubs/{id}', [ClubController::class, 'show']);
+    Route::get('clubs/competitions/{id}', [ClubController::class, 'getCompetitionClubs']);
+    Route::get('clubs/users/{id}', [UserController::class, 'getAllUsersByClub']);
+});
+
+Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
+    Route::delete('/{id}/user/delete', [UserController::class, 'delete']);
 });

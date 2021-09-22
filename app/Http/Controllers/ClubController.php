@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClubRequest;
+use App\Http\Requests\UpdateClubRequest;
 use App\Repositories\ClubsRepositoryInterface;
 use App\Http\Resources\ClubResource;
 use App\Repositories\UserRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\Authenticate;
+
 
 class ClubController extends Controller
 {
@@ -45,7 +45,7 @@ class ClubController extends Controller
             'data'   => new ClubResource($team)
         ]);
     }
-    public function update(Request $request, $id) {
+    public function update(UpdateClubRequest $request, $id) {
         $updatedTeam = $this->club->update($request->all(), $id);
         return response()->json([
             'status' => 'success',

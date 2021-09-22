@@ -16,9 +16,10 @@ class UsersResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+        'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->avatar,
+            'competition' => optional(optional( optional($this->club)->competition)->name),
             'role_name' => optional($this->roles()->first())->name,
             'club'      => optional($this->club()->first())->name,
         ];

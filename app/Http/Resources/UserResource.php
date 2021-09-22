@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'club_id' => $this->club_id,
             'role_name' => optional($this->roles()->first())->name,
             'club'      => optional($this->club()->first())->name,
             'token'     => optional($this)->token
