@@ -42,4 +42,7 @@ class ClubsRepository implements ClubsRepositoryInterface
     public function getAll() {
         return Club::orderBy('id', 'desc')->get();
     }
+    public function getCompetitionClubs($id) {
+        return Club::where('competition_id', $id)->get();
+    }
 }

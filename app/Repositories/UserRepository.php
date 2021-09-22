@@ -54,5 +54,8 @@ class UserRepository implements UserRepositoryInterface
         $users = User::with("roles")->get();
         return $users;
     }
+    public function getAllUsersByClub($id) {
+        return User::where('club_id', $id)->get();
+    }
 
 }

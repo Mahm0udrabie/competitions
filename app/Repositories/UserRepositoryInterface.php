@@ -12,4 +12,5 @@ interface UserRepositoryInterface
     public function AllUsersWithRole();
     public function UserWithRole($id);
     public function getUser($id);
+    public function getAllUsersByClub($id);
 }

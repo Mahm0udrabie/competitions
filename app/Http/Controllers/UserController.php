@@ -41,4 +41,11 @@ class UserController extends Controller
             'data'   => new UsersResource($user)
         ]);
     }
+    public function getAllUsersByClub($id) {
+        $user = $this->userRepository->getAllUsersByClub($id);
+        return response()->json([
+            'status' => 'success',
+            'data'   => UsersResource::collection($user)
+        ]);
+    }
 }

@@ -54,6 +54,8 @@ Route::group(['prefix'=>'clubs' , 'cors', 'json', 'auth:api','superadministrator
     Route::get('/{id}', [ClubController::class, 'show']);
     Route::post('/{id}/update', [ClubController::class, 'update']);
     Route::delete('/{id}/delete', [ClubController::class, 'delete']);
+    Route::get('users/{id}', [UserController::class, 'getAllUsersByClub']);
+    Route::get('competitions/{id}', [ClubController::class, 'getCompetitionClubs']);
 });
 
 Route::middleware('auth:api')->get('user/{id}',[UserController::class, 'getUser']);

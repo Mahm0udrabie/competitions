@@ -54,5 +54,11 @@ class ClubController extends Controller
             'data' => $member
         ]);
     }
-
+    public function getCompetitionClubs($id) {
+        $teams = $this->club->getCompetitionClubs($id);
+        return response()->json([
+            'status' => 'success',
+            'data' =>  ClubResource::collection($teams)
+        ]);
+    }
 }

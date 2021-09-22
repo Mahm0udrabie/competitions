@@ -25,7 +25,7 @@ class AddMembersRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'club_id' => 'required|exists:clubs,id'
         ];
     }
