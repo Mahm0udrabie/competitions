@@ -49,7 +49,7 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api', 'role:superadministrat
 
 
 //teams resource
-Route::group(['prefix'=>'clubs' ,'middleware'=> ['cors', 'json', 'auth:api', 'auth:api','role:superadministrator|administrator']], function() {
+Route::group(['prefix'=>'clubs' ,'middleware'=> ['cors', 'json', 'auth:api', 'role:superadministrator|administrator']], function() {
     Route::post('/', [ClubController::class, 'store']);
     Route::get('/', [ClubController::class, 'getAll']);
     Route::post('/members', [ClubController::class, 'addMembers']);
@@ -66,6 +66,6 @@ Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
     Route::get('clubs/users/{id}', [UserController::class, 'getAllUsersByClub']);
 });
 
-Route::group(['middleware'=> ['cors', 'json', 'auth:api']] , function() {
+Route::group(['middleware'=> ['cors', 'json', 'auth:api','role:superadministrator|administrator']] , function() {
     Route::delete('/{id}/user/delete', [UserController::class, 'delete']);
 });
